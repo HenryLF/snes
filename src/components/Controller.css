@@ -1,0 +1,38 @@
+@import "tailwindcss";
+
+.controller {
+  @apply flex flex-col p-5 max-h-[33vh];
+}
+
+.shoulders {
+  @apply w-full flex justify-between;
+}
+.shoulders > button {
+  @apply flex-1 max-w-1/5;
+}
+
+.dpad,
+.actions {
+  @apply grid grid-cols-3 grid-rows-3;
+  @apply bg-white/20 h-full rounded-[50%] aspect-square p-1;
+}
+
+.dpad > button {
+  @apply rounded-2xl;
+}
+
+.actions > button {
+  @apply rounded-[50%];
+}
+
+.dpad > button,
+.actions > button {
+  @apply size-12 align-middle text-center;
+}
+
+.options {
+  @apply flex;
+}
+.options > button {
+  @apply py-0 h-4 text-xs w-full -rotate-45;
+}
