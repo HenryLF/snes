@@ -63,14 +63,12 @@ function App() {
   const saveState = useCallback(() => {
     if (!emulator) return;
     const state = emulator.saveState();
-    console.log(state);
     if (!state) return;
     saveStateAtKey(stateKey, state);
   }, [emulator, stateKey]);
 
   const loadState = useCallback(async () => {
     if (!emulator) return;
-    console.log(stateKey);
     const state = await loadStateAtKey(stateKey);
     if (!state) return;
     emulator.loadState(state.state);
