@@ -15,7 +15,7 @@
     "dexie-react-hooks": "^4.2.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
-    "snes9x2005-wasm": "file:snes9x2005-wasm-2.0.0.tgz",
+    "snes9x2005-wasm": "^2.0.1",
     "tailwindcss": "^4.2.1"
   },
   "devDependencies": {
