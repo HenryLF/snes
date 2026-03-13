@@ -23,7 +23,6 @@ export default function Controller() {
     }),
     [emulator],
   );
-  emulator?.createKeyboardHandles({ a: SNES_CONTROL.A }, true);
 
   return (
     <section className="controller">
