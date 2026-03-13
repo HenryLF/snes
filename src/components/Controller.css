@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 .controller {
-  @apply flex flex-col p-5 max-h-[33vh];
+  @apply flex flex-col ;
 }
 
 .shoulders {
@@ -27,7 +27,7 @@
 
 .dpad > button,
 .actions > button {
-  @apply size-12 align-middle text-center;
+  @apply align-middle text-center;
 }
 
 .options {

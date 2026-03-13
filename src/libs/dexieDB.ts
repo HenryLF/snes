@@ -1,5 +1,6 @@
 import { Dexie, type EntityTable } from "dexie";
 import { useLiveQuery } from "dexie-react-hooks";
+import { defaultInputMap, type InputMap } from "snes9x2005-wasm";
 const DB_VERSION = 1;
 
 interface Games {
@@ -9,24 +10,49 @@ interface Games {
   createdAt: Date;
 }
 
-export interface SaveStates {
+interface SaveStates {
   id: number;
   gameId: number;
   state: Uint8Array;
 }
 
+export interface Settings {
+  id: string;
+  inputMap: InputMap;
+}
+
 const db = new Dexie("FriendsDatabase") as Dexie & {
   games: EntityTable<Games, "id">;
   saveStates: EntityTable<SaveStates, "id">;
+  settings: EntityTable<Settings, "id">;
 };
 
 db.version(DB_VERSION).stores({
   games: "id++",
   saveStates: "id++, gameId",
+  settings: "id",
+});
+
+db.on("populate", () => {
+  db.settings.add({
+    id: "settings",
+    inputMap: defaultInputMap,
+  });
 });
 
 export const useGame = (id: number) =>
   useLiveQuery(() => (isNaN(id) ? undefined : db.games.get(id)), [id]);
+
+export const useSettings = () =>
+  useLiveQuery(() => db.settings.get("settings"));
+
+export const updateInputMap = (map: InputMap) =>
+  db.settings
+    .where("id")
+    .equals("settings")
+    .modify((obj) => {
+      obj.inputMap = { ...obj.inputMap, ...map };
+    });
 
 export const getGameList = () => useLiveQuery(() => db.games.toArray());
 export const useGameStates = (key: number) =>

@@ -1,4 +1,8 @@
 @import "tailwindcss";
+@theme {
+  --color-gray: #1a1a1a;
+}
+
 body {
   @apply w-screen h-screen;
 }
@@ -16,7 +20,7 @@ body {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  @apply relative overflow-hidden p-1;
+  @apply relative overflow-hidden;
 }
 
 .canvas {
@@ -32,27 +36,23 @@ body {
 }
 .controller,
 .emulator-control {
-  @apply flex justify-evenly items-center p-1;
+  @apply flex flex-wrap justify-evenly items-center p-1;
 }
 .selector {
-  @apply flex-1 flex-nowrap flex justify-center items-center space-x-1;
+  @apply flex-1 flex justify-center items-center space-x-1;
 }
 button {
-  border-radius: 8px;
-  border: 1px solid transparent;
   padding: 0.6em 1.2em;
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
   background-color: #1a1a1a;
   cursor: pointer;
-  transition: border-color 0.25s;
-  @apply active:opacity-60;
+  user-select: none;
+  transition: opacity 0.25s;
+  opacity: 0.6;
+  @apply rounded-xl;
 }
 button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+  opacity: 0.8;
 }

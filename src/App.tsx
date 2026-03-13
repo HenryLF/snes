@@ -5,6 +5,18 @@ import { loadStateAtKey, saveStateAtKey, useGame } from "./libs/dexieDB";
 import useStateSelector from "./components/StateSelector";
 import Controller from "./components/Controller";
 
+import Settings from "./icons/settings";
+import Close from "./icons/close";
+import ExitFullscreen from "./icons/exitFullscreen";
+import Fullscreen from "./icons/fullscreen";
+import Fastforward from "./icons/fastforward";
+import Pause from "./icons/pause";
+import Play from "./icons/play";
+import Pad from "./icons/pad";
+import Keyboard from "./icons/keyboard";
+import useModal from "./libs/useModal";
+import InputSelector from "./components/InputSelector";
+
 function App() {
   const { ref, emulator } = useEmulation();
 
@@ -17,6 +29,7 @@ function App() {
   const [currentVolume, setCurrentVolume] = useState(50);
   const [fullscreen, setFullScreen] = useState(false);
   const [virtualPad, setVirtualPad] = useState(true);
+  const { Modal: KeyboardModal, setOpen: setKeyboardModal } = useModal();
 
   useEffect(() => {
     if (!gameData) return;
@@ -77,14 +90,16 @@ function App() {
       <section className="controls">
         {emulationMenu ? (
           <div className="emulator-control">
-            <button onClick={toggleRun}>{running ? "Stop" : "Start"}</button>
-            <div className="flex items-center">
+            <button onClick={toggleRun}>
+              {running ? <Pause /> : <Play />}
+            </button>
+            <div className="flex items-center bg-gray rounded-xl">
               <button onClick={() => setEmulationSpeed(currentSpeed - 1)}>
-                -
+                <Fastforward className="rotate-180" />
               </button>
               <div className="px-2">{currentSpeed}</div>
               <button onClick={() => setEmulationSpeed(currentSpeed + 1)}>
-                +
+                <Fastforward />
               </button>
             </div>
             <button onClick={saveState}>Save</button>
@@ -96,15 +111,22 @@ function App() {
               value={currentVolume}
               onChange={({ target }) => setVolume(target.valueAsNumber)}
             />
-            <button onClick={() => setFullScreen((p) => !p)}>Fullscreen</button>
+            <button onClick={() => setFullScreen((p) => !p)}>
+              {fullscreen ? <ExitFullscreen /> : <Fullscreen />}
+            </button>
             <button onClick={() => setVirtualPad((p) => !p)}>
-              {virtualPad ? "VP" : "nVP"}
+              <Pad
+                className={virtualPad ? "text-red-500" : "text-white"}
+              />{" "}
+            </button>
+            <button onClick={() => setKeyboardModal(true)}>
+              <Keyboard />
             </button>
             <button
               className="w-fit self-center"
               onClick={() => setEmulationMenu(false)}
             >
-              Close
+              <Close />
             </button>
           </div>
         ) : (
@@ -112,7 +134,7 @@ function App() {
             className="w-fit self-center"
             onClick={() => setEmulationMenu(true)}
           >
-            Menu
+            <Settings className="text-white" />
           </button>
         )}
         {virtualPad && <Controller />}
@@ -121,6 +143,9 @@ function App() {
         <GameSelector />
         <StateSelector />
       </div>
+      <KeyboardModal className="p-10 flex flex-col items-center justify-center">
+        <InputSelector />
+      </KeyboardModal>
     </>
   );
 }

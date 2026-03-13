@@ -8,7 +8,7 @@ import {
   type RefObject,
 } from "react";
 import { Emulator, type EmulatorOption } from "snes9x2005-wasm";
-
+import { useSettings } from "./dexieDB";
 
 const emulationContext = createContext<{
   emulator: Emulator | null;
@@ -21,6 +21,7 @@ export default function EmulationContext({
 }: PropsWithChildren & Partial<EmulatorOption>) {
   const [emulator, setEmulator] = useState<Emulator | null>(null);
 
+  const settings = useSettings();
   const ref = useRef<HTMLCanvasElement | null>(null);
 
   useEffect(() => {
@@ -29,6 +30,20 @@ export default function EmulationContext({
     }
     return () => emulator?.destroy();
   }, [ref]);
+
+  useEffect(() => {
+    if (!settings || !emulator) return;
+    const { onkeydown, onkeyup } = emulator.createKeyboardHandles(
+      settings.inputMap,
+      false,
+    );
+    window.onkeyup = onkeyup;
+    window.onkeydown = onkeydown;
+    return () => {
+      window.onkeyup = () => {};
+      window.onkeydown = () => {};
+    };
+  }, [settings, emulator]);
 
   return (
     <emulationContext.Provider value={{ emulator, ref }}>

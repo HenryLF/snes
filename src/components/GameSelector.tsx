@@ -1,6 +1,9 @@
 import { useState, type JSX } from "react";
 import { getGameList, newGame } from "../libs/dexieDB";
 import useFileInput from "../libs/useFileInput";
+import Game from "../icons/game";
+import Close from "../icons/close";
+import New from "../icons/new";
 
 export default function useGameSelector(): [number, () => JSX.Element] {
   const [currentGame, setCurrentGame] = useState<number>(NaN);
@@ -29,11 +32,17 @@ export default function useGameSelector(): [number, () => JSX.Element] {
               ))}
             </select>
 
-            <button onClick={uploadRom}>New rom</button>
-            <button onClick={() => setOpen(false)}>Close</button>
+            <button onClick={uploadRom}>
+              <New />
+            </button>
+            <button onClick={() => setOpen(false)}>
+              <Close />
+            </button>
           </>
         ) : (
-          <button onClick={() => setOpen(true)}>Open Menu</button>
+          <button onClick={() => setOpen(true)}>
+            <Game />
+          </button>
         )}
       </section>
     );

@@ -27,7 +27,7 @@ export default function Controller() {
 
   return (
     <section className="controller">
-      <div className="shoulders">
+      <div className="shoulders my-2">
         <button {...handle(SNES_CONTROL.L)}>L</button>
         <button {...handle(SNES_CONTROL.R)}>R</button>
       </div>
@@ -77,7 +77,7 @@ export default function Controller() {
             X
           </button>
           <button
-            className="col-start-1 row-start-2 bg-[#018552]"
+            className="col-start-1 row-start-2 bg-[#018552]!"
             {...handle(SNES_CONTROL.Y)}
           >
             Y
